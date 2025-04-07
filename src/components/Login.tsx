@@ -15,7 +15,10 @@ export const Login = () => {
     e.preventDefault();
     try {
       const { user } = await emailSignIn(email, password);
-      setUser({ email: user.email, id: user.uid });
+      setUser({
+        email: user.email, id: user.uid,
+        uid: ""
+      });
       navigate("/");
     } catch (error) {
       setError(`Error: ${error}`);
