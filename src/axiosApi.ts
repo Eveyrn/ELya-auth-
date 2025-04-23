@@ -10,7 +10,7 @@ export const axiosApi = axios.create({
 axiosApi.interceptors.request.use(async (config) => {
   if (config.url?.startsWith('/') && auth.currentUser) {
     try {
-      const token = await auth.currentUser.getIdToken(true); // Ensures token is fresh
+      const token = await auth.currentUser.getIdToken(true); 
       config.params = { ...config.params, auth: token };
     } catch (error) {
       console.error('Token refresh failed:', error);
@@ -22,9 +22,9 @@ axiosApi.interceptors.request.use(async (config) => {
 
 export const setProfileData = async (profileData: { id: string, name: string, lastName: string, role: string }) => {
   try {
-    const userId = profileData.id;  // ID пользователя
-    await axiosApi.put(`/profiles/${userId}.json`, profileData);  // Отправляем данные профиля в Firebase
-    return true;  // Возвращаем успешный результат
+    const userId = profileData.id;  
+    await axiosApi.put(`/profiles/${userId}.json`, profileData);  
+    return true; 
   } catch (error) {
     console.error("Error saving profile data:", error);
     throw new Error("Error saving profile data");
