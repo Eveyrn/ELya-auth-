@@ -1,62 +1,152 @@
+// import { useState } from 'react';
+// import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Button } from '@mui/material';
+// import AccountCircle from '@mui/icons-material/AccountCircle';
+// import { useNavigate } from 'react-router-dom';  
+// import { useAuthStore } from '../store/useAuthStore';  
+// import { userSignOut } from '../firebase';  
+
+// const Header = () => {
+//   const navigate = useNavigate();  
+//   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
+//   const { user, profile, clearUser } = useAuthStore(); 
+//   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+//     setAnchorEl(event.currentTarget);  
+//   };
+
+//   const handleMenuClose = () => {
+//     setAnchorEl(null);  
+//   };
+
+//   const handleLogOut = async () => {
+//     await userSignOut();  
+//     clearUser(); 
+//     navigate('/login');  
+//   };
+
+//   function handleClose(p0: string): void {
+//     throw new Error('Function not implemented.');
+//   }
+
+//   return (
+//     <AppBar position="static">
+//       <Toolbar>
+//         <Typography variant="h6" sx={{ flexGrow: 1 }}>
+//           My Application
+//         </Typography>
+
+//         {user ? (
+//           <div>
+//             <IconButton
+//               size="large"
+//               edge="end"
+//               color="inherit"
+//               onClick={handleMenuOpen}  
+//             >
+//               <AccountCircle />
+//             </IconButton>
+//             <Menu
+//               anchorEl={anchorEl}
+//               open={Boolean(anchorEl)}
+//               onClose={handleMenuClose}
+//             >
+//             {!profile && <MenuItem onClick={() => handleClose('/create-profile')}>Create profile</MenuItem>
+//           }
+
+
+//               <MenuItem onClick={() => navigate('/')}>Home</MenuItem>  
+//               <MenuItem onClick={() => navigate('/create-post')}>Create Post</MenuItem> 
+//               <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem> 
+
+//               {!profile && (
+//                 <MenuItem onClick={() => navigate("/create-profile")}>Create Profile</MenuItem>
+//               )}
+
+//               <MenuItem onClick={handleLogOut}>Logout</MenuItem>  
+//             </Menu>
+//           </div>
+//         ) : (
+//           <div>
+//             <Button color="inherit" onClick={() => navigate('/login')}>Login</Button> 
+//             <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>  
+//           </div>
+//         )}
+//       </Toolbar>
+//     </AppBar>
+//   );
+// };
+
+// export default Header;
+
+
 
 import { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Button } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { useAuthStore } from '../store/useAuthStore';
-import { Link, useNavigate } from 'react-router-dom';
-import { userSignOut } from '../firebase';
+import { useNavigate } from 'react-router-dom';  
+import { useAuthStore } from '../store/useAuthStore';  
+import { userSignOut } from '../firebase';  
 
-export default function Header() {
-  const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { user, clearUser } = useAuthStore();
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+const Header = () => {
+  const navigate = useNavigate();  
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
+  const { user, profile, clearUser } = useAuthStore(); 
+  
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);  
   };
 
-  const handleClose = (route: string) => {
-    setAnchorEl(null);
-    navigate(route);
+  const handleMenuClose = () => {
+    setAnchorEl(null);  
   };
 
-  const logOut = async () => {
-    await userSignOut();
-    clearUser();
-    navigate('/login');
+  const handleLogOut = async () => {
+    await userSignOut();  
+    clearUser(); 
+    navigate('/login');  
   };
 
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Auth app
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          My Application
         </Typography>
-        {user && (
+
+        {user ? (
           <div>
-            <IconButton size="large" onClick={handleMenu} color="inherit">
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              onClick={handleMenuOpen}  
+            >
               <AccountCircle />
             </IconButton>
-            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-              <MenuItem onClick={() => handleClose('/')}>Home</MenuItem>
-              <MenuItem onClick={() => handleClose('/add-post')}>Add Post</MenuItem>
-              <MenuItem onClick={() => handleClose('/profile')}>Profile</MenuItem>
-              <MenuItem onClick={logOut}>Log out</MenuItem>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem onClick={() => navigate('/')}>Home</MenuItem>  
+              <MenuItem onClick={() => navigate('/add-post')}>Create Post</MenuItem> 
+              <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem> 
+
+              {/* {!profile && (
+                <MenuItem onClick={() => navigate("/create-profile")}>Create Profile</MenuItem>
+              )} */}
+
+              <MenuItem onClick={handleLogOut}>Logout</MenuItem>  
             </Menu>
           </div>
-        )}
-        {!user && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
-            <Link to="/register" style={{ color: 'white', textDecoration: 'none' }}>Register</Link>
+        ) : (
+          <div>
+            <Button color="inherit" onClick={() => navigate('/login')}>Login</Button> 
+            <Button color="inherit" onClick={() => navigate('/register')}>Register</Button>  
           </div>
         )}
       </Toolbar>
     </AppBar>
   );
-}
+};
+
+export default Header;

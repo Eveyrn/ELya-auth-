@@ -1,5 +1,5 @@
 import { IPost } from "../../types";
-import { collection , addDoc , query , orderBy , where , getDocs, } from "firebase/firestore";
+import { collection , addDoc , query , orderBy , where , getDocs, doc, getDoc, deleteDoc, } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export const createPost = async ( post:Omit<IPost, 'id'> ) => {
@@ -36,3 +36,27 @@ return querySnapshot.docs.map ((doc) => ({
     ...doc.data(),
 })) as IPost[];
 }
+
+ export const getPostById = async (id: string) => {
+    try {
+      const postDoc = doc(db, "posts", id);
+      const postSnapshot = await getDoc(postDoc);
+      if (postSnapshot.exists()) {
+        return { id: postSnapshot.id, ...postSnapshot.data() };
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching post:", error);
+      return null;
+    }
+  };
+  
+  
+export const deletePost = async (id: string) => {
+    try {
+        const postDoc = doc(db, 'posts', id);
+        await deleteDoc(postDoc); 
+    } catch (error) {
+        console.error("Error deleting post:", error);
+    }
+};
